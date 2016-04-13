@@ -6,10 +6,10 @@ import imageio
 import numpy as np
 import cPickle as pickle
 import shutil
+from constants import Constants
 
-DATA_DIR = './data'
 
-class Video:
+class Sequence:
 
     def __init__(self, id, label, url, res, fmt, slices):
         self.id = id
@@ -18,13 +18,13 @@ class Video:
         self.res = res
         self.fmt = fmt
 
-        self.dir_name = DATA_DIR + '/' + self.id
+        self.dir_name = Constants.DATA_DIR + '/' + self.id
         self.file_path = self.dir_name + "/" + self.id + "." + self.fmt
 
         yt = YouTube(url)
         yt.set_filename(id)
         self.downloader = yt.get(fmt, res)
-        self.serialized_path = self.dir_name + "/" + self.id + ".pickle"
+        self.serialized_path = Constants.DATA_DIR + "/" + self.id + ".pickle"
 
         #flatten
         self.positives = list(itertools.chain(*[range(x[0], x[1]) for x in slices]))
@@ -52,18 +52,17 @@ class Video:
         TEMP = "./tmp/images/"
         self.__create_dirs_if_not_exists(TEMP)
 
-        IMAGE_SIZE = 224
 
         #TODO: use piplines instead of savings files to disk
         command = ['ffmpeg', '-n', '-i', self.file_path, 
-                   '-vf', 'fps=1, scale=' + str(IMAGE_SIZE) + ':' + str(IMAGE_SIZE),
+                   '-vf', 'fps=1, scale=' + str(Constants.IMAGE_SIZE) + ':' + str(Constants.IMAGE_SIZE),
                    TEMP + '%d.png']
         sp.call(command)
 
         image_files = os.listdir(TEMP)
         max_examples = len(image_files)
 
-        dataset = np.ndarray(shape=(max_examples, IMAGE_SIZE, IMAGE_SIZE, 3), dtype=np.float32)
+        dataset = np.ndarray(shape=(max_examples, Constants.IMAGE_SIZE, Constants.IMAGE_SIZE, 3), dtype=np.float32)
         labels = np.ndarray(shape=(max_examples), dtype=np.int32)
 
         idx = 0
@@ -72,7 +71,7 @@ class Video:
             src = TEMP + file
             try:
                 image = self.__normalize(imageio.imread(src))
-                if image.shape != (IMAGE_SIZE, IMAGE_SIZE, 3):
+                if image.shape != (Constants.IMAGE_SIZE, Constants.IMAGE_SIZE, 3):
                     raise Exception('Image incorrectly resized', src, image.shape)
                 dataset[idx] = self.__normalize(imageio.imread(src))
                 if seq in self.positives:
