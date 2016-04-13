@@ -1,12 +1,14 @@
 import numpy as np
 import tensorflow as tf
 
+
 class DataSet(object):
 
     def __init__(self, images, labels, dtype=tf.float32):
         dtype = tf.as_dtype(dtype).base_dtype
         if dtype not in (tf.uint8, tf.float32):
-            raise TypeError('Invalid image dtype %r, expected uint8 or float32' %
+            raise TypeError('Invalid image dtype %r,'
+                            ' expected uint8 or float32' %
                             dtype)
         self._num_examples = images.shape[0]
 

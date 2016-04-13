@@ -26,8 +26,9 @@ class Sequence:
         self.downloader = yt.get(fmt, res)
         self.serialized_path = Constants.DATA_DIR + "/" + self.id + ".pickle"
 
-        #flatten
-        self.positives = list(itertools.chain(*[range(x[0], x[1]) for x in slices]))
+        # flatten
+        self.positives = list(itertools.chain(
+            *[range(x[0], x[1]) for x in slices]))
 
     def read(self):
         try:
@@ -52,17 +53,18 @@ class Sequence:
         TEMP = "./tmp/images/"
         self.__create_dirs_if_not_exists(TEMP)
 
-
-        #TODO: use piplines instead of savings files to disk
-        command = ['ffmpeg', '-n', '-i', self.file_path, 
-                   '-vf', 'fps=1, scale=' + str(Constants.IMAGE_SIZE) + ':' + str(Constants.IMAGE_SIZE),
+        # TODO: use piplines instead of savings files to disk
+        command = ['ffmpeg', '-n', '-i', self.file_path,
+                   '-vf', 'fps=1, scale=' +
+                   str(Constants.IMAGE_SIZE) + ':' + str(Constants.IMAGE_SIZE),
                    TEMP + '%d.png']
         sp.call(command)
 
         image_files = os.listdir(TEMP)
         max_examples = len(image_files)
 
-        dataset = np.ndarray(shape=(max_examples, Constants.IMAGE_SIZE, Constants.IMAGE_SIZE, 3), dtype=np.float32)
+        dataset = np.ndarray(shape=(max_examples, Constants.IMAGE_SIZE,
+                                    Constants.IMAGE_SIZE, 3), dtype=np.float32)
         labels = np.ndarray(shape=(max_examples), dtype=np.int32)
 
         idx = 0
@@ -71,8 +73,10 @@ class Sequence:
             src = TEMP + file
             try:
                 image = self.__normalize(imageio.imread(src))
-                if image.shape != (Constants.IMAGE_SIZE, Constants.IMAGE_SIZE, 3):
-                    raise Exception('Image incorrectly resized', src, image.shape)
+                if image.shape != (Constants.IMAGE_SIZE,
+                                   Constants.IMAGE_SIZE, 3):
+                    raise Exception('Image incorrectly resized',
+                                    src, image.shape)
                 dataset[idx] = self.__normalize(imageio.imread(src))
                 if seq in self.positives:
                     labels[idx] = 1
@@ -82,18 +86,24 @@ class Sequence:
             except IOError as e:
                 print "Could not read", src
 
-        #Remove unused space
+        # Remove unused space
         dataset = dataset[0:idx, :, :]
         labels = labels[0:idx]
 
         sample_range = self.__random_sample(dataset)
         print "creating test set from", sample_range[0], "to", sample_range[1]
-        test_dataset, test_labels = self.__extract_dataset(dataset, labels, sample_range)
+        test_dataset, test_labels = self.__extract_dataset(dataset,
+                                                           labels,
+                                                           sample_range)
         dataset, labels = self.__delete_range(dataset, labels, sample_range)
 
         sample_range = self.__random_sample(dataset)
-        print "creating validation set from", sample_range[0], "to", sample_range[1]
-        validation_dataset, validation_labels = self.__extract_dataset(dataset, labels, sample_range)
+        print("creating validation set from", sample_range[0],
+              "to", sample_range[1])
+        validation_dataset, validation_labels = \
+            self.__extract_dataset(dataset,
+                                   labels,
+                                   sample_range)
         dataset, labels = self.__delete_range(dataset, labels, sample_range)
 
         try:
@@ -115,23 +125,26 @@ class Sequence:
 
     def __random_sample(self, dataset):
         rand_idx = np.random.randint(1, 4)
-        samples, step = np.linspace(0, len(dataset), num=5, dtype=np.int32, retstep=True)
+        samples, step = np.linspace(0, len(dataset), num=5,
+                                    dtype=np.int32, retstep=True)
         return samples[rand_idx], samples[rand_idx] + step
-    
+
     def __extract_dataset(self, dataset, labels, sample_range):
         test_dataset = dataset[sample_range[0]:sample_range[1], :, :]
         test_labels = labels[sample_range[0]:sample_range[1]]
         return test_dataset, test_labels
 
     def __delete_range(self, dataset, labels, sample_range):
-        dataset = np.delete(dataset, np.arange(sample_range[0], sample_range[1]), axis=0)
-        labels = np.delete(labels, np.arange(sample_range[0], sample_range[1]), axis=0)
+        dataset = np.delete(dataset, np.arange(sample_range[0],
+                                               sample_range[1]), axis=0)
+        labels = np.delete(labels, np.arange(sample_range[0],
+                                             sample_range[1]), axis=0)
         return dataset, labels
 
     def __normalize(self, image):
         PIXEL_DEPTH = 255
         return (image - PIXEL_DEPTH/2)/PIXEL_DEPTH
-    
+
     def __create_dirs_if_not_exists(self, path):
         if not os.path.exists(path):
             os.makedirs(path)

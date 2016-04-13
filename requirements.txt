@@ -1,6 +1,10 @@
+flake8==2.5.4
 imageio==1.5
+mccabe==0.4.0
 numpy==1.11.0
+pep8==1.7.0
 protobuf==3.0.0b2
+pyflakes==1.0.0
 pytube==6.1.8
 six==1.10.0
 tensorflow==0.7.1
