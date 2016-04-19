@@ -27,7 +27,13 @@ python import_data.py
 python model_train.py
 ```
 ```sh
+# Continously evaluate the model every 5 minutes
 python model_eval.py
+# To evaluate pre-trained weights, use this
+# You can download my pre-trained weights from
+# https://drive.google.com/file/d/0B8gGhyLfZXnYazlaRlJqeURMS2c/view?usp=sharing
+# They give me around 97.5% accuracy as of now
+python model_eval.py --run_once --checkpoint_dir=./learned_params
 ```
 
 ### Architecture & memory constraints
