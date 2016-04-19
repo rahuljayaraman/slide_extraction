@@ -25,6 +25,12 @@ python import_data.py
 
 ```sh
 python model_train.py
+
+# Resume from checkpoint
+# This will surely screw up your event log as you're going back in time to the
+# checkpoint, which is saved every 100 steps or so.
+# Tensorboard will end up showing some weird graphs
+python model_train.py --resume_training
 ```
 ```sh
 # Continously evaluate the model every 5 minutes
