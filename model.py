@@ -5,8 +5,8 @@ from __future__ import print_function
 import os
 import tensorflow as tf
 import model_input
-import paths
-import defaults
+from constants import paths
+from constants import defaults
 
 IMAGE_SIZE = defaults.IMAGE_SIZE
 NUM_CLASSES = defaults.NUM_CLASSES

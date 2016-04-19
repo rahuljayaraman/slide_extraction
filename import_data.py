@@ -1,6 +1,6 @@
 from sequence import Sequence
 import numpy as np
-import paths
+from constants import paths
 import shutil
 import utils
 

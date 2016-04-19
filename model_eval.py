@@ -9,8 +9,8 @@ import time
 import numpy as np
 import tensorflow as tf
 import model
-import paths
-import defaults
+from constants import paths
+from constants import defaults
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -57,6 +57,7 @@ def eval_once(saver, summary_writer, top_k_op, summary_op):
 
             precision = true_count / total_sample_count
             print('%s: precision @ 1 = %.3f' % (datetime.now(), precision))
+            print("true count", true_count, "total sample", total_sample_count)
 
             summary = tf.Summary()
             summary.ParseFromString(sess.run(summary_op))

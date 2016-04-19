@@ -9,7 +9,7 @@ import numpy as np
 from six.moves import xrange
 import tensorflow as tf
 import model
-import paths
+from constants import paths
 
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('train_dir', paths.TRAIN_DIR,

@@ -1,12 +1,12 @@
 import os
 import numpy as np
 from PIL import Image
-import paths
-import defaults
+from constants import paths
+from constants import defaults
 
 IMAGE_SIZE = defaults.IMAGE_SIZE
 
-data = open(paths.SERIALIZED_DIR+"data_batch_1.bin","rb") 
+data = open(paths.SERIALIZED_DIR + "data_batch_1.bin","rb") 
 
 for i in range(1000,1010):
     label = data.read(1)

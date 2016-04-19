@@ -6,8 +6,8 @@ import imageio
 import numpy as np
 import shutil
 import utils
-import defaults
-import paths
+from constants import defaults
+from constants import paths
 
 IMAGE_SIZE = defaults.IMAGE_SIZE
 
