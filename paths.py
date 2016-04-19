@@ -1,0 +1,7 @@
+DATA_DIR = './data'
+SERIALIZED_DIR = DATA_DIR + '/serialized/'
+IMAGES_DIR = DATA_DIR + '/images/'
+LOG_DIR = './logs/'
+TEMP_DIR = './tmp'
+TRAIN_DIR = './tmp/train'
+EVAL_DIR = './tmp/eval'
