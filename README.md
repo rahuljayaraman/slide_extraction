@@ -6,6 +6,10 @@ Note: Only the slide detection bit of the pipeline exists as of now.
 
 ### Setup env
 
+You need to have ffmpeg installed & in path.
+
+### Setup env
+
 ```sh
 # Download and install virtualenv
 virtualenv venv
@@ -27,10 +31,11 @@ python import_data.py
 python model_train.py
 
 # Resume from checkpoint
+python model_train.py --resume_training
 # This will surely screw up your event log as you're going back in time to the
 # checkpoint, which is saved every 100 steps or so.
-# Tensorboard will end up showing some weird graphs
-python model_train.py --resume_training
+# Tensorboard will end up showing some weird graphs. Increment run_no to avoid this
+python model_train.py --resume_training --run_no=2
 ```
 ```sh
 # Continously evaluate the model every 5 minutes
