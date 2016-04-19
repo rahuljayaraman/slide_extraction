@@ -21,7 +21,7 @@ tf.app.flags.DEFINE_boolean('log_device_placement', False,
                             """Whether to log device placement.""")
 tf.app.flags.DEFINE_boolean('resume_training', True,
                             """Resume training?""")
-tf.app.flags.DEFINE_integer('run_no', 2,
+tf.app.flags.DEFINE_integer('run_no', 1,
                             """Allow TB to differentiate runs""")
 
 SUMMARY_DIR = FLAGS.train_dir + '/' + str(FLAGS.run_no)

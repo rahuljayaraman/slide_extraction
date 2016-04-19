@@ -36,6 +36,16 @@ python model_eval.py
 python model_eval.py --run_once --checkpoint_dir=./learned_params
 ```
 
+### Visualize
+```sh
+# In case you've changed your default logdir
+tensorboard --logdir ./tmp/train
+
+# For multiple runs, change the add a run_no flag to training
+python model_train.py --run_no=2
+# This allows you to compare multiple runs on tensorboard
+```
+
 ### Architecture & memory constraints
 
 TODO
