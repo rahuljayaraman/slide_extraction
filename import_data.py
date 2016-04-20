@@ -123,7 +123,8 @@ for sequence in TRAINING_DATA:
                 (all_data[key], data[key]),
                 axis=0)
 
-shutil.rmtree(paths.SERIALIZED_DIR)
+if os.path.exists(paths.SERIALIZED_DIR):
+    shutil.rmtree(paths.SERIALIZED_DIR)
 utils.print_stats(all_data, ['train', 'test'])
 print "Serializing.."
 utils.create_dirs_if_not_exists(paths.SERIALIZED_DIR)
