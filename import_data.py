@@ -113,6 +113,7 @@ def serialize(data, labels, batch_size=0):
 all_data = {}
 
 for sequence in TRAINING_DATA:
+    sequence.download()
     data = sequence.read()
     if not all_data:
         all_data = data
@@ -122,9 +123,9 @@ for sequence in TRAINING_DATA:
                 (all_data[key], data[key]),
                 axis=0)
 
+shutil.rmtree(paths.SERIALIZED_DIR)
 utils.print_stats(all_data, ['train', 'test'])
 print "Serializing.."
-shutil.rmtree(paths.SERIALIZED_DIR)
 utils.create_dirs_if_not_exists(paths.SERIALIZED_DIR)
 serialize(all_data['train_dataset'], all_data['train_labels'], batch_size=2000)
 serialize(all_data['test_dataset'], all_data['test_labels'])
