@@ -2,6 +2,7 @@ from sequence import Sequence
 import numpy as np
 from constants import paths
 import shutil
+import os
 import utils
 
 TRAINING_DATA = [
