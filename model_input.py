@@ -6,7 +6,7 @@ import os
 
 from six.moves import xrange
 import tensorflow as tf
-import defaults
+from constants import defaults
 
 IMAGE_SIZE = defaults.IMAGE_SIZE
 NUM_CLASSES = defaults.NUM_CLASSES
