@@ -9,6 +9,7 @@ import numpy as np
 from six.moves import xrange
 import tensorflow as tf
 import model
+import utils
 from constants import paths
 
 FLAGS = tf.app.flags.FLAGS
@@ -91,7 +92,7 @@ def train():
 def main(argv=None):
     if not FLAGS.resume_training:
         if tf.gfile.Exists(FLAGS.train_dir):
-            tf.gfile.DeleteRecursively(FLAGS.train_dir)
+            utils.remove_files_only(FLAGS.train_dir)
         tf.gfile.MakeDirs(SUMMARY_DIR)
     if not tf.gfile.Exists(SUMMARY_DIR):
         tf.gfile.MakeDirs(SUMMARY_DIR)
