@@ -4,17 +4,21 @@ Extract slides out of videos
 
 Note: Only the slide detection bit of the pipeline exists as of now.
 
-### Setup env
+### Setup
 
 You need to have ffmpeg installed & in path.
-
-### Setup env
+I've noticed some inconsistencies between ffmpeg versions. Please use v3.0
 
 ```sh
-# Download and install virtualenv
+# Create a new env using virtualenv
 virtualenv venv
-pip install -r requirements.txt
 source venv/bin/activate
+```
+Install tensorflow from 
+https://www.tensorflow.org/versions/r0.8/get_started/os_setup.html#pip-installation
+
+```sh
+pip install -r requirements.txt
 ```
 
 ### Import data
@@ -56,6 +60,10 @@ tensorboard --logdir ./tmp/train
 python model_train.py --run_no=2
 # This allows you to compare multiple runs on tensorboard
 ```
+
+### Serve
+
+TODO
 
 ### Architecture & memory constraints
 
